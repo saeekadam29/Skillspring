@@ -43,15 +43,21 @@ SkillSpring is a dynamic career guidance platform built with PHP and MySQL. It h
 
 ### 🏠 Homepage
 Clean landing page with navigation, career quiz CTA, and featured sections.
+<img width="1808" height="923" alt="Screenshot 2026-06-03 180847" src="https://github.com/user-attachments/assets/84abb34e-def2-47bc-8232-58afc797688d" />
 
 ### 🔐 Login & Register
 Secure authentication with a modern split-screen UI design.
+<img width="1808" height="835" alt="Screenshot 2026-06-03 180635" src="https://github.com/user-attachments/assets/f6201368-1f47-4b0c-8c86-7c5c67ec11f0" />
 
 ### 📰 Blog / News Page
 Filter articles by category: All, Tech, Finance, AI, Cybersecurity, Career, Manufacturing.
+<img width="1799" height="804" alt="image" src="https://github.com/user-attachments/assets/498488e9-2e33-4729-a4ed-1fa8075ef82b" />
+<img width="1806" height="806" alt="image" src="https://github.com/user-attachments/assets/c75b1a11-3e41-4b61-b604-ce538a9213e3" />
 
 ### 📄 Resume Analyzer
 Paste resume text or upload a .txt file, select target career role, and get instant analysis.
+<img width="1845" height="823" alt="image" src="https://github.com/user-attachments/assets/16884f21-70e5-40a3-81ae-a6c6f66016c0" />
+<img width="1824" height="840" alt="image" src="https://github.com/user-attachments/assets/a1a0da7a-8731-4fab-80f2-6b3e3425a7b7" />
 
 ---
 
