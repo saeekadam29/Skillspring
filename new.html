@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industry News & Insights</title>
+    <style>
+        /* --- Basic Reset and Typography --- */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        /* --- Header/Navigation --- */
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Main Content Layout --- */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* --- Search & Filter Bar (new) --- */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .search-box {
+            padding: 10px 16px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.95em;
+            width: 280px;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .search-box:focus { border-color: #007bff; }
+
+        .filter-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        .filter-btn {
+            padding: 8px 18px;
+            border: 1.5px solid #007bff;
+            border-radius: 999px;
+            background: white;
+            color: #007bff;
+            font-size: 0.88em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all .2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .results-count {
+            text-align: center;
+            font-size: 0.88em;
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        /* --- News Article Card Styling --- */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, opacity .3s ease;
+        }
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,.15);
+        }
+        .article-card.hidden {
+            display: none;
+        }
+        .article-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .article-content {
+            padding: 20px;
+        }
+        .article-content h3 {
+            margin-top: 0;
+            color: #007bff;
+            font-size: 1.2em;
+            line-height: 1.4;
+        }
+        .article-content p {
+            font-size: 0.95em;
+            color: #555;
+        }
+        .article-meta {
+            font-size: 0.8em;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        .cat-badge {
+            display: inline-block;
+            background: #e8f4ff;
+            color: #007bff;
+            font-size: 0.75em;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 999px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+        .read-more {
+            display: inline-block;
+            color: #28a745;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .read-more:hover { text-decoration: underline; }
+
+        /* No results message */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            font-size: 1.1em;
+            display: none;
+            width: 100%;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            margin-top: 40px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .search-box { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Industry Insights & News</h1>
+        <nav>
+            <a href="index (6).html">Go back to Home</a>
+            <a href="#articles">Read Articles</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2 style="text-align:center;color:#007bff;margin-bottom:24px;">Latest Market Updates</h2>
+
+        <!-- Search & Filter -->
+        <div class="controls">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search articles…" oninput="filterArticles()" />
+        </div>
+        <div class="filter-btns" id="filterBtns">
+            <button class="filter-btn active" data-cat="All" onclick="setFilter(this)">All</button>
+        </div>
+        <p class="results-count" id="resultsCount"></p>
+
+        <!-- Grid -->
+        <div class="news-grid" id="articles"></div>
+        <div class="no-results" id="noResults">😕 No articles found. Try a different search or filter.</div>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="yr"></span> SkillSpring Industry Insights. All rights reserved.</p>
+    </footer>
+
+<script>
+// ── ALL ARTICLES DATA ──────────────────────────────────────────
+const articles = [
+  // ── ORIGINAL 3 ──
+  {
+    cat: 'Tech',
+    date: 'October 25, 2025',
+    title: 'The Rise of Serverless Computing',
+    desc: 'How the shift to serverless architectures is reducing infrastructure costs and speeding up deployment for startups globally.',
+    img: 'server.jpeg',
+    imgFallback: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop',
+    url: 'https://www.fortinet.com/resources/cyberglossary/serverless-computing'
+  },
+  {
+    cat: 'Finance',
+    date: 'October 20, 2025',
+    title: 'Global Economic Forecast for Q4 2025',
+    desc: 'An in-depth analysis of predicted market trends, inflation rates, and investment opportunities for the end of the year.',
+    img: 'inflamation.jpeg',
+    imgFallback: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&auto=format&fit=crop',
+    url: 'https://www.investopedia.com/terms/i/inflation.asp'
+  },
+  {
+    cat: 'Manufacturing',
+    date: 'October 18, 2025',
+    title: 'AI Integration in Supply Chain Logistics',
+    desc: 'Exploring how machine learning algorithms are optimizing warehousing, transportation, and inventory management for efficiency.',
+    img: 'robotics.jpeg',
+    imgFallback: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&auto=format&fit=crop',
+    url: 'https://www.ibm.com/think/topics/ai-inventory-management'
+  },
+
+  // ── NEW ARTICLES ──
+  {
+    cat: 'Tech',
+    date: 'November 5, 2025',
+    title: 'Quantum Computing Enters the Enterprise',
+    desc: 'Major tech firms are beginning to offer quantum-as-a-service, opening doors for complex problem-solving in pharma, logistics, and finance.',
+    img: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&auto=format&fit=crop',
+    url: 'https://www.ibm.com/quantum'
+  },
+  {
+    cat: 'AI',
+    date: 'November 3, 2025',
+    title: 'Generative AI Reshapes the Creative Industry',
+    desc: 'From copywriting to video production, AI tools are transforming how creative teams work — and raising new questions about authorship and jobs.',
+    img: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&auto=format&fit=crop',
+    url: 'https://openai.com/blog'
+  },
+  {
+    cat: 'AI',
+    date: 'October 30, 2025',
+    title: 'AI in Healthcare: Faster Diagnosis, Better Outcomes',
+    desc: 'Hospitals are deploying AI models that can detect cancers and rare diseases with accuracy rivaling experienced specialists.',
+    img: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&auto=format&fit=crop',
+    url: 'https://www.nature.com/articles/s41591-019-0420-8'
+  },
+  {
+    cat: 'Cybersecurity',
+    date: 'October 28, 2025',
+    title: 'Zero-Trust Security: Why Every Company Needs It Now',
+    desc: 'As remote work becomes permanent, security experts argue that traditional perimeter-based models are no longer sufficient to protect enterprise data.',
+    img: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&auto=format&fit=crop',
+    url: 'https://www.crowdstrike.com/cybersecurity-101/zero-trust-security/'
+  },
+  {
+    cat: 'Cybersecurity',
+    date: 'November 8, 2025',
+    title: 'Ransomware Attacks Hit Record High in 2025',
+    desc: 'A new report shows ransomware incidents have surged 45% this year, with small and medium businesses becoming the primary targets.',
+    img: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&auto=format&fit=crop',
+    url: 'https://www.cisa.gov/stopransomware'
+  },
+  {
+    cat: 'Finance',
+    date: 'November 1, 2025',
+    title: 'Decentralized Finance: The Future of Banking?',
+    desc: 'DeFi protocols are disrupting traditional banking by offering lending, borrowing, and earning interest without intermediaries.',
+    img: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&auto=format&fit=crop',
+    url: 'https://ethereum.org/en/defi/'
+  },
+  {
+    cat: 'Finance',
+    date: 'October 15, 2025',
+    title: 'Rise of Impact Investing Among Millennials',
+    desc: 'A growing wave of young investors is prioritizing ESG (Environmental, Social, Governance) criteria when building their portfolios.',
+    img: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&auto=format&fit=crop',
+    url: 'https://www.investopedia.com/terms/i/impact-investing.asp'
+  },
+  {
+    cat: 'Career',
+    date: 'November 10, 2025',
+    title: 'Top 10 Jobs That Will Dominate the Next Decade',
+    desc: 'From AI trainers to climate analysts, here are the roles experts predict will see the highest demand between now and 2035.',
+    img: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=600&auto=format&fit=crop',
+    url: 'https://www.weforum.org/reports/the-future-of-jobs-report-2023'
+  },
+  {
+    cat: 'Career',
+    date: 'November 6, 2025',
+    title: 'Remote Work is Here to Stay — But it is Evolving',
+    desc: 'New data shows hybrid models are now the global standard, with companies investing in better async tools and virtual collaboration spaces.',
+    img: 'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600&auto=format&fit=crop',
+    url: 'https://buffer.com/state-of-remote-work'
+  },
+  {
+    cat: 'Career',
+    date: 'October 22, 2025',
+    title: 'Why Soft Skills Are the New Hard Currency',
+    desc: 'Employers across industries are placing increasing value on communication, adaptability, and emotional intelligence as AI automates technical tasks.',
+    img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&auto=format&fit=crop',
+    url: 'https://www.linkedin.com/business/learning/blog/top-skills/most-in-demand-skills'
+  },
+  {
+    cat: 'Manufacturing',
+    date: 'October 12, 2025',
+    title: 'Green Manufacturing: How Industry is Going Sustainable',
+    desc: 'Companies are redesigning production lines to cut carbon emissions, with solar-powered factories and closed-loop recycling leading the charge.',
+    img: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&auto=format&fit=crop',
+    url: 'https://www.mckinsey.com/capabilities/operations/our-insights/the-net-zero-transition'
+  },
+  {
+    cat: 'Tech',
+    date: 'November 12, 2025',
+    title: 'Edge Computing: Bringing Power Closer to the User',
+    desc: 'As IoT devices multiply, edge computing reduces latency and bandwidth costs by processing data closer to where it is generated.',
+    img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop',
+    url: 'https://www.cloudflare.com/learning/serverless/glossary/what-is-edge-computing/'
+  },
+  {
+    cat: 'AI',
+    date: 'November 14, 2025',
+    title: 'Large Language Models and the Future of Search',
+    desc: 'Search engines are integrating LLMs to deliver conversational answers instead of link lists, fundamentally changing how we find information online.',
+    img: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&auto=format&fit=crop',
+    url: 'https://www.theverge.com/2023/2/8/23590873/google-ai-search-bing-microsoft'
+  },
+];
+
+// ── BUILD FILTER BUTTONS ──────────────────────────────────────
+const categories = ['All', ...new Set(articles.map(a => a.cat))];
+const filterBtns = document.getElementById('filterBtns');
+filterBtns.innerHTML = '';
+categories.forEach(cat => {
+  const btn = document.createElement('button');
+  btn.className = 'filter-btn' + (cat === 'All' ? ' active' : '');
+  btn.dataset.cat = cat;
+  btn.textContent = cat;
+  btn.onclick = function(){ setFilter(this); };
+  filterBtns.appendChild(btn);
+});
+
+// ── RENDER CARDS ──────────────────────────────────────────────
+function renderCards() {
+  const grid = document.getElementById('articles');
+  grid.innerHTML = '';
+  articles.forEach((a, i) => {
+    const card = document.createElement('article');
+    card.className = 'article-card';
+    card.dataset.cat = a.cat;
+    card.dataset.index = i;
+
+    const img = document.createElement('img');
+    img.alt = a.title;
+    img.src = a.img;
+    if (a.imgFallback) img.onerror = function(){ this.src = a.imgFallback; };
+
+    card.innerHTML = `
+      <div class="article-content">
+        <span class="cat-badge">${a.cat}</span>
+        <div class="article-meta">${a.cat} | ${a.date}</div>
+        <h3>${a.title}</h3>
+        <p>${a.desc}</p>
+        <a href="${a.url}" target="_blank" rel="noopener" class="read-more">Read Full Story &rarr;</a>
+      </div>`;
+    card.insertBefore(img, card.firstChild);
+    grid.appendChild(card);
+  });
+  filterArticles();
+}
+
+// ── FILTER & SEARCH ───────────────────────────────────────────
+let activeCategory = 'All';
+
+function setFilter(btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeCategory = btn.dataset.cat;
+  filterArticles();
+}
+
+function filterArticles() {
+  const query = document.getElementById('searchBox').value.toLowerCase().trim();
+  const cards = document.querySelectorAll('.article-card');
+  let visible = 0;
+
+  cards.forEach(card => {
+    const catMatch = activeCategory === 'All' || card.dataset.cat === activeCategory;
+    const text = card.innerText.toLowerCase();
+    const searchMatch = !query || text.includes(query);
+    if (catMatch && searchMatch) {
+      card.classList.remove('hidden');
+      visible++;
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+
+  const total = articles.length;
+  document.getElementById('resultsCount').textContent =
+    visible === total ? `Showing all ${total} articles`
+    : `Showing ${visible} of ${total} articles`;
+
+  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+}
+
+renderCards();
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
