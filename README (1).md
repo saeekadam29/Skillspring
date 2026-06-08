@@ -57,9 +57,18 @@ Filter articles by category: All, Tech, Finance, AI, Cybersecurity, Career, Manu
 ### 📄 Resume Analyzer
 Paste resume text or upload a .txt file, select target career role, and get instant analysis.
 <img width="1845" height="823" alt="image" src="https://github.com/user-attachments/assets/16884f21-70e5-40a3-81ae-a6c6f66016c0" />
+
 <img width="1824" height="840" alt="image" src="https://github.com/user-attachments/assets/a1a0da7a-8731-4fab-80f2-6b3e3425a7b7" />
 
----
+<img width="1824" height="832" alt="Screenshot 2026-06-08 155320" src="https://github.com/user-attachments/assets/1cfd2d51-5191-43d6-a981-b95a0c0c3b1c" />
+
+<img width="1812" height="888" alt="Screenshot 2026-06-08 155334" src="https://github.com/user-attachments/assets/bae9ad3d-2221-49c7-a4e2-50aff39d7b0c" />
+
+<img width="1790" height="837" alt="Screenshot 2026-06-08 155355" src="https://github.com/user-attachments/assets/ad234bcf-53f3-46d4-9315-08a97224e74a" />
+
+<img width="1822" height="815" alt="Screenshot 2026-06-08 155410" src="https://github.com/user-attachments/assets/e4b09e1e-29a1-47e0-834a-f9682c0d437b" />
+
+
 
 ## ⚙️ Installation & Setup
 
